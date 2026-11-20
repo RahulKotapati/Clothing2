@@ -64,9 +64,137 @@ footer{padding:40px 0 56px;color:var(--muted);font-size:.9rem}
   header.hero{padding-top:48px}
 }
 a:focus-visible,button:focus-visible{outline:3px solid var(--thread);outline-offset:2px}
+
+/* --- Interactive polish --- */
+html { scroll-behavior: smooth; }
+body { overflow-x: hidden; }
+::selection { background: var(--thread); color: var(--ink); }
+
+.progress-track {
+  position: fixed; inset: 0 0 auto; height: 4px; z-index: 1000;
+  background: transparent; pointer-events: none;
+}
+.progress-bar {
+  height: 100%; width: 0; background: var(--thread);
+  box-shadow: 0 0 12px color-mix(in srgb, var(--thread), transparent 25%);
+  transition: width .08s linear;
+}
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+.hero::before, .hero::after {
+  content: ""; position: absolute; z-index: -1; border-radius: 50%;
+  pointer-events: none; filter: blur(2px); opacity: .16;
+}
+.hero::before {
+  width: 340px; height: 340px; right: -90px; top: -130px;
+  border: 2px dashed var(--denim); animation: float 9s ease-in-out infinite;
+}
+.hero::after {
+  width: 190px; height: 190px; right: 120px; bottom: -110px;
+  background: var(--thread); opacity: .12; animation: float 7s ease-in-out infinite reverse;
+}
+.hero h1 { animation: rise-in .8s cubic-bezier(.2,.8,.2,1) both; }
+.hero p, .hero .tag { animation: rise-in .8s .12s cubic-bezier(.2,.8,.2,1) both; }
+
+.panel {
+  position: relative; overflow: hidden;
+  transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
+  cursor: pointer;
+}
+.panel::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(115deg, transparent 20%, rgba(255,255,255,.22) 48%, transparent 72%);
+  transform: translateX(-130%); transition: transform .65s ease;
+}
+.panel:hover {
+  transform: translateY(-6px);
+  border-color: var(--thread);
+  box-shadow: 0 14px 30px rgba(20,33,61,.12);
+}
+.panel:hover::after { transform: translateX(130%); }
+.panel:focus-visible { outline: 3px solid var(--thread); outline-offset: 4px; }
+section > h2, section > .lede { opacity: 0; transform: translateY(18px); }
+section.in-view > h2, section.in-view > .lede {
+  opacity: 1; transform: translateY(0); transition: opacity .6s ease, transform .6s ease;
+}
+section .panel, section .table-scroll {
+  opacity: 0; transform: translateY(18px);
+}
+section.in-view .panel, section.in-view .table-scroll {
+  opacity: 1; transform: translateY(0);
+  transition: opacity .55s ease, transform .55s ease;
+}
+section.in-view .panel:nth-child(2) { transition-delay: .05s; }
+section.in-view .panel:nth-child(3) { transition-delay: .1s; }
+section.in-view .panel:nth-child(4) { transition-delay: .15s; }
+section.in-view .panel:nth-child(5) { transition-delay: .2s; }
+section.in-view .panel:nth-child(6) { transition-delay: .25s; }
+section.in-view .panel:nth-child(7) { transition-delay: .3s; }
+section.in-view .panel:nth-child(8) { transition-delay: .35s; }
+section.in-view .panel:nth-child(9) { transition-delay: .4s; }
+
+.ui-button {
+  border: 0; border-radius: 999px; padding: 11px 18px; cursor: pointer;
+  color: var(--on-denim); background: var(--denim); font: 600 .95rem "Public Sans", sans-serif;
+  transition: transform .2s ease, filter .2s ease;
+}
+.ui-button:hover { transform: translateY(-2px); filter: brightness(1.08); }
+.ui-button.secondary { color: var(--ink); background: var(--bg); border: 1px solid var(--seam); }
+.popup-backdrop {
+  position: fixed; inset: 0; z-index: 1100; display: grid; place-items: center;
+  padding: 20px; background: rgba(7,13,25,.62); backdrop-filter: blur(7px);
+  opacity: 0; visibility: hidden; transition: opacity .25s ease, visibility .25s ease;
+}
+.popup-backdrop.open { opacity: 1; visibility: visible; }
+.popup-card {
+  width: min(100%, 480px); max-height: min(82vh, 650px); overflow: auto;
+  background: var(--surface); color: var(--ink); border: 1px solid var(--seam);
+  border-radius: 22px; padding: 28px; position: relative;
+  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+  transform: translateY(18px) scale(.97); transition: transform .25s ease;
+}
+.popup-backdrop.open .popup-card { transform: translateY(0) scale(1); }
+.popup-card h2 { margin: 0 34px 12px 0; font-size: 1.7rem; }
+.popup-card p { color: var(--muted); }
+.popup-close {
+  position: absolute; top: 14px; right: 14px; width: 38px; height: 38px;
+  border: 0; border-radius: 50%; background: var(--bg); color: var(--ink);
+  font-size: 1.35rem; cursor: pointer;
+}
+.popup-kicker { color: var(--denim); font-size: .78rem; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; }
+.popup-actions { display: flex; flex-wrap: wrap; gap: 10px; margin-top: 22px; }
+.toast {
+  position: fixed; z-index: 1200; left: 50%; bottom: 24px;
+  transform: translate(-50%, 20px); opacity: 0; pointer-events: none;
+  background: var(--ink); color: var(--surface); padding: 12px 18px;
+  border-radius: 999px; box-shadow: 0 8px 30px rgba(0,0,0,.2);
+  transition: opacity .25s ease, transform .25s ease; text-align: center;
+  width: max-content; max-width: calc(100vw - 32px); font-size: .9rem;
+}
+.toast.show { opacity: 1; transform: translate(-50%, 0); }
+.back-top {
+  position: fixed; right: 20px; bottom: 22px; z-index: 900;
+  width: 44px; height: 44px; border: 0; border-radius: 50%;
+  background: var(--denim); color: var(--on-denim); font-size: 1.2rem;
+  cursor: pointer; box-shadow: 0 6px 18px rgba(0,0,0,.18);
+  opacity: 0; visibility: hidden; transform: translateY(10px);
+  transition: .25s ease;
+}
+.back-top.visible { opacity: 1; visibility: visible; transform: translateY(0); }
+body.modal-open { overflow: hidden; }
+@keyframes rise-in { from { opacity: 0; transform: translateY(22px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes float { 0%,100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(18px) rotate(8deg); } }
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { scroll-behavior: auto !important; animation-duration: .01ms !important; transition-duration: .01ms !important; }
+}
+@media (max-width: 560px) {
+  .popup-card { padding: 23px; }
+  .back-top { right: 14px; bottom: 14px; }
+}
+
 </style>
 </head>
 <body>
+<div class="progress-track" aria-hidden="true"><div class="progress-bar" id="progressBar"></div></div>
 <header class="hero"><div class="wrap">
   <h1>Clothes made after you order them.</h1>
   <p>Loomwell is an example direct-to-consumer clothing label. It sells small-batch basics in limited drops, so nothing is made on a guess and almost nothing goes unsold.</p>
@@ -78,45 +206,45 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--thread);outline-off
   <h2>The business model canvas</h2>
   <p class="lede">Nine blocks that show how Loomwell creates, delivers and earns from its clothing.</p>
   <div class="canvas">
-    <div class="panel kp"><h3>Key partners</h3><ul>
+    <div class="panel kp" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Key partners</h3><ul>
       <li>Small cut-and-sew factories in Portugal</li>
       <li>Organic cotton and recycled-fibre mills</li>
       <li>Courier and returns partners</li>
       <li>Local tailors for repairs</li></ul></div>
-    <div class="panel ka"><h3>Key activities</h3><ul>
+    <div class="panel ka" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Key activities</h3><ul>
       <li>Designing 2 drops a year</li>
       <li>Pre-order campaigns</li>
       <li>Batch production planning</li>
       <li>Content and community</li></ul></div>
-    <div class="panel kr"><h3>Key resources</h3><ul>
+    <div class="panel kr" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Key resources</h3><ul>
       <li>Design team and pattern library</li>
       <li>Supplier relationships</li>
       <li>Online store and customer data</li>
       <li>Brand and social following</li></ul></div>
-    <div class="panel vp"><h3>Value proposition</h3><ul>
+    <div class="panel vp" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Value proposition</h3><ul>
       <li>Well-fitting, durable basics at fair prices</li>
       <li>Made in small batches, so less waste</li>
       <li>Free repairs for two years</li>
       <li>Transparent costs on every product page</li></ul></div>
-    <div class="panel cr"><h3>Customer relationships</h3><ul>
+    <div class="panel cr" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Customer relationships</h3><ul>
       <li>Early access for members</li>
       <li>Repair and resale service</li>
       <li>Fit advice by chat</li></ul></div>
-    <div class="panel ch"><h3>Channels</h3><ul>
+    <div class="panel ch" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Channels</h3><ul>
       <li>Own website (main channel)</li>
       <li>Instagram and TikTok</li>
       <li>Pop-up shops and markets</li>
       <li>Email drops</li></ul></div>
-    <div class="panel cs"><h3>Customer segments</h3><ul>
+    <div class="panel cs" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Customer segments</h3><ul>
       <li>Students and young professionals, 18–35</li>
       <li>Shoppers who care about sustainability</li>
       <li>Buyers who want fewer, better clothes</li></ul></div>
-    <div class="panel co"><h3>Cost structure</h3><ul>
+    <div class="panel co" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Cost structure</h3><ul>
       <li>Fabric, trims and manufacturing (about 45% of price)</li>
       <li>Shipping, packaging and returns</li>
       <li>Marketing and website costs</li>
       <li>Salaries and studio overheads</li></ul></div>
-    <div class="panel rs"><h3>Revenue streams</h3><ul>
+    <div class="panel rs" role="button" tabindex="0" aria-label="More about this section" data-panel><h3>Revenue streams</h3><ul>
       <li>Direct online sales of drops</li>
       <li>Membership (£25 a year) for early access and repairs</li>
       <li>Pre-loved resale commission</li>
@@ -144,5 +272,136 @@ a:focus-visible,button:focus-visible{outline:3px solid var(--thread);outline-off
 </main>
 
 <footer><div class="wrap">Loomwell is a fictional brand created to show how a clothing business model fits together.</div></footer>
+
+<div class="popup-backdrop" id="popupBackdrop" role="dialog" aria-modal="true" aria-labelledby="popupTitle" aria-hidden="true">
+  <div class="popup-card">
+    <button class="popup-close" id="popupClose" aria-label="Close popup">&times;</button>
+    <div class="popup-kicker" id="popupKicker">Welcome to Loomwell</div>
+    <h2 id="popupTitle">A smarter way to make clothes.</h2>
+    <p id="popupText">Explore the business model and discover how each part works together.</p>
+    <div class="popup-actions">
+      <button class="ui-button" id="popupAction">Explore the canvas</button>
+      <button class="ui-button secondary" id="popupDismiss">Maybe later</button>
+    </div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<button class="back-top" id="backTop" aria-label="Back to top" title="Back to top">↑</button>
+
+<script>
+(() => {
+  const $ = (selector) => document.querySelector(selector);
+  const backdrop = $("#popupBackdrop");
+  const popupTitle = $("#popupTitle");
+  const popupText = $("#popupText");
+  const popupKicker = $("#popupKicker");
+  const closeButton = $("#popupClose");
+  const toast = $("#toast");
+  let lastFocused = null;
+  let toastTimer;
+
+  const details = {
+    "Key partners": "Loomwell works with small cut-and-sew factories, responsible material suppliers, couriers and local tailors. These partners help the brand make, deliver and repair its clothing.",
+    "Key activities": "The core work includes planning two yearly drops, running pre-orders, coordinating batch production and building a community around each collection.",
+    "Key resources": "The design team, pattern library, supplier relationships, online store and brand community are the assets that help Loomwell operate.",
+    "Value proposition": "Loomwell offers durable, well-fitting basics at fair prices, produced in smaller batches, with repairs and transparent product costs.",
+    "Customer relationships": "Members receive early access, customers can use the repair and resale service, and fit advice is available through chat.",
+    "Channels": "The website is the main sales channel, supported by social media, pop-up shops, markets and email launches.",
+    "Customer segments": "The brand is aimed at students and young professionals, sustainability-minded shoppers and people who prefer buying fewer, better-quality clothes.",
+    "Cost structure": "Major costs include materials and manufacturing, shipping and returns, marketing, website expenses, salaries and studio overheads.",
+    "Revenue streams": "Income comes from online product drops, annual membership, pre-loved resale commission and selected wholesale partners."
+  };
+
+  function openPopup(title, text, kicker = "Loomwell overview") {
+    lastFocused = document.activeElement;
+    popupKicker.textContent = kicker;
+    popupTitle.textContent = title;
+    popupText.textContent = text;
+    backdrop.classList.add("open");
+    backdrop.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    closeButton.focus();
+  }
+  function closePopup() {
+    backdrop.classList.remove("open");
+    backdrop.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+    if (lastFocused && typeof lastFocused.focus === "function") lastFocused.focus();
+  }
+  function showToast(message) {
+    toast.textContent = message;
+    toast.classList.add("show");
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => toast.classList.remove("show"), 2600);
+  }
+
+  closeButton.addEventListener("click", closePopup);
+  $("#popupDismiss").addEventListener("click", closePopup);
+  backdrop.addEventListener("click", (event) => {
+    if (event.target === backdrop) closePopup();
+  });
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && backdrop.classList.contains("open")) closePopup();
+  });
+
+  document.querySelectorAll("[data-panel]").forEach((panel) => {
+    const heading = panel.querySelector("h3");
+    if (!heading) return;
+    const title = heading.textContent.trim();
+    const activate = () => openPopup(title, details[title] || "Explore this part of the Loomwell business model.");
+    panel.addEventListener("click", activate);
+    panel.addEventListener("keydown", (event) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        activate();
+      }
+    });
+  });
+
+  $("#popupAction").addEventListener("click", () => {
+    closePopup();
+    document.querySelector(".canvas")?.scrollIntoView({ behavior: "smooth", block: "start" });
+    showToast("Explore the nine parts of the Loomwell business model");
+  });
+
+  // Reveal sections as they enter the viewport.
+  const sections = document.querySelectorAll("main section");
+  if ("IntersectionObserver" in window) {
+    const revealObserver = new IntersectionObserver((entries, observer) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("in-view");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    sections.forEach((section) => revealObserver.observe(section));
+  } else {
+    sections.forEach((section) => section.classList.add("in-view"));
+  }
+
+  // Reading progress and back-to-top button.
+  const progress = $("#progressBar");
+  const backTop = $("#backTop");
+  function updateScrollUI() {
+    const scrollable = document.documentElement.scrollHeight - window.innerHeight;
+    const percent = scrollable > 0 ? (window.scrollY / scrollable) * 100 : 0;
+    progress.style.width = percent + "%";
+    backTop.classList.toggle("visible", window.scrollY > 420);
+  }
+  window.addEventListener("scroll", updateScrollUI, { passive: true });
+  updateScrollUI();
+  backTop.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+
+  // A short welcome popup on first visit in this browser.
+  window.setTimeout(() => {
+    if (!sessionStorage.getItem("loomwellWelcomeSeen")) {
+      openPopup("Welcome to Loomwell", "This interactive overview explains how a small-batch clothing brand creates value, serves customers and earns revenue. Select any canvas card to learn more.", "A quick introduction");
+      sessionStorage.setItem("loomwellWelcomeSeen", "yes");
+    }
+  }, 850);
+})();
+</script>
+
 </body>
 </html>
