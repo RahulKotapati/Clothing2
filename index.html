@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Loomwell: a clothing business model</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@500;700;800&family=Public+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#eef1f5; --surface:#ffffff; --ink:#14213d; --muted:#4d5b78;
+  --denim:#2f4f85; --thread:#e0a800; --seam:#9aa8c4; --on-denim:#ffffff;
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1626; --surface:#16213a; --ink:#eaf0fb; --muted:#a9b6d1;
+    --denim:#6f96d6; --thread:#f2c230; --seam:#4a5b82; --on-denim:#0e1626; color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1626; --surface:#16213a; --ink:#eaf0fb; --muted:#a9b6d1;
+  --denim:#6f96d6; --thread:#f2c230; --seam:#4a5b82; --on-denim:#0e1626; color-scheme:dark;
+}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:400 1rem/1.6 "Public Sans",system-ui,sans-serif}
+h1,h2,h3{font-family:"Bricolage Grotesque","Public Sans",system-ui,sans-serif;line-height:1.1;margin:0}
+.wrap{max-width:1120px;margin:0 auto;padding:0 20px}
+header.hero{padding:72px 0 48px}
+.hero h1{font-size:clamp(2.4rem,7vw,4.8rem);font-weight:800;letter-spacing:-.02em;max-width:14ch}
+.hero p{max-width:56ch;color:var(--muted);font-size:1.15rem;margin:20px 0 0}
+.tag{display:inline-block;margin-top:28px;padding:8px 16px;border:2px dashed var(--thread);border-radius:999px;font-weight:600}
+section{padding:40px 0}
+h2{font-size:clamp(1.6rem,3.5vw,2.3rem);font-weight:700;margin-bottom:8px}
+.lede{color:var(--muted);max-width:60ch;margin:0 0 28px}
+.canvas{display:grid;gap:14px;grid-template-columns:repeat(5,1fr);
+  grid-template-areas:
+   "kp ka vp cr cs"
+   "kp kr vp ch cs"
+   "co co co rs rs"}
+.panel{background:var(--surface);border:2px dashed var(--seam);border-radius:14px;padding:18px}
+.panel h3{font-size:1.05rem;margin-bottom:10px}
+.panel ul{margin:0;padding-left:1.1em;color:var(--muted);font-size:.93rem}
+.panel li+li{margin-top:6px}
+.vp{grid-area:vp;background:var(--denim);color:var(--on-denim);border:2px dashed var(--thread)}
+.vp ul{color:inherit}
+.vp h3{font-size:1.35rem}
+.kp{grid-area:kp}.ka{grid-area:ka}.kr{grid-area:kr}.cr{grid-area:cr}.ch{grid-area:ch}.cs{grid-area:cs}.co{grid-area:co}.rs{grid-area:rs}
+.table-scroll{overflow-x:auto}
+table{width:100%;border-collapse:collapse;background:var(--surface);border:2px dashed var(--seam);border-radius:14px;min-width:420px}
+th,td{padding:12px 18px;text-align:left;border-bottom:1px solid var(--seam)}
+td:last-child,th:last-child{text-align:right;font-variant-numeric:tabular-nums}
+tr:last-child td{border-bottom:0}
+tr.total td{font-weight:700;background:var(--bg)}
+.note{color:var(--muted);font-size:.9rem;margin-top:12px}
+footer{padding:40px 0 56px;color:var(--muted);font-size:.9rem}
+@media (max-width:900px){
+  .canvas{grid-template-columns:1fr 1fr;grid-template-areas:"vp vp" "cs cr" "ch ka" "kr kp" "rs co"}
+}
+@media (max-width:560px){
+  .canvas{grid-template-columns:1fr;grid-template-areas:"vp" "cs" "cr" "ch" "ka" "kr" "kp" "rs" "co"}
+  header.hero{padding-top:48px}
+}
+a:focus-visible,button:focus-visible{outline:3px solid var(--thread);outline-offset:2px}
+</style>
+</head>
+<body>
+<header class="hero"><div class="wrap">
+  <h1>Clothes made after you order them.</h1>
+  <p>Loomwell is an example direct-to-consumer clothing label. It sells small-batch basics in limited drops, so nothing is made on a guess and almost nothing goes unsold.</p>
+  <span class="tag">Illustrative business model</span>
+</div></header>
+
+<main class="wrap">
+<section>
+  <h2>The business model canvas</h2>
+  <p class="lede">Nine blocks that show how Loomwell creates, delivers and earns from its clothing.</p>
+  <div class="canvas">
+    <div class="panel kp"><h3>Key partners</h3><ul>
+      <li>Small cut-and-sew factories in Portugal</li>
+      <li>Organic cotton and recycled-fibre mills</li>
+      <li>Courier and returns partners</li>
+      <li>Local tailors for repairs</li></ul></div>
+    <div class="panel ka"><h3>Key activities</h3><ul>
+      <li>Designing 2 drops a year</li>
+      <li>Pre-order campaigns</li>
+      <li>Batch production planning</li>
+      <li>Content and community</li></ul></div>
+    <div class="panel kr"><h3>Key resources</h3><ul>
+      <li>Design team and pattern library</li>
+      <li>Supplier relationships</li>
+      <li>Online store and customer data</li>
+      <li>Brand and social following</li></ul></div>
+    <div class="panel vp"><h3>Value proposition</h3><ul>
+      <li>Well-fitting, durable basics at fair prices</li>
+      <li>Made in small batches, so less waste</li>
+      <li>Free repairs for two years</li>
+      <li>Transparent costs on every product page</li></ul></div>
+    <div class="panel cr"><h3>Customer relationships</h3><ul>
+      <li>Early access for members</li>
+      <li>Repair and resale service</li>
+      <li>Fit advice by chat</li></ul></div>
+    <div class="panel ch"><h3>Channels</h3><ul>
+      <li>Own website (main channel)</li>
+      <li>Instagram and TikTok</li>
+      <li>Pop-up shops and markets</li>
+      <li>Email drops</li></ul></div>
+    <div class="panel cs"><h3>Customer segments</h3><ul>
+      <li>Students and young professionals, 18–35</li>
+      <li>Shoppers who care about sustainability</li>
+      <li>Buyers who want fewer, better clothes</li></ul></div>
+    <div class="panel co"><h3>Cost structure</h3><ul>
+      <li>Fabric, trims and manufacturing (about 45% of price)</li>
+      <li>Shipping, packaging and returns</li>
+      <li>Marketing and website costs</li>
+      <li>Salaries and studio overheads</li></ul></div>
+    <div class="panel rs"><h3>Revenue streams</h3><ul>
+      <li>Direct online sales of drops</li>
+      <li>Membership (£25 a year) for early access and repairs</li>
+      <li>Pre-loved resale commission</li>
+      <li>Wholesale to a few select shops</li></ul></div>
+  </div>
+</section>
+
+<section>
+  <h2>Unit economics: one hoodie</h2>
+  <p class="lede">Why the model can work: each item sells at full price and carries a healthy margin.</p>
+  <div class="table-scroll"><table>
+    <thead><tr><th>Item</th><th>£ per hoodie</th></tr></thead>
+    <tbody>
+      <tr><td>Selling price</td><td>68.00</td></tr>
+      <tr><td>Fabric and trims</td><td>−14.00</td></tr>
+      <tr><td>Cut and sew</td><td>−16.00</td></tr>
+      <tr><td>Shipping and packaging</td><td>−4.00</td></tr>
+      <tr><td>Payment fees</td><td>−2.00</td></tr>
+      <tr><td>Returns allowance</td><td>−3.00</td></tr>
+      <tr class="total"><td>Gross profit (about 43%)</td><td>29.00</td></tr>
+    </tbody>
+  </table></div>
+  <p class="note">All figures are example numbers for a student project. Replace them with real supplier quotes before using them.</p>
+</section>
+</main>
+
+<footer><div class="wrap">Loomwell is a fictional brand created to show how a clothing business model fits together.</div></footer>
+</body>
+</html>
